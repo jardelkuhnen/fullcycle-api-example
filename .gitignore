@@ -1,0 +1,4 @@
+# ignoring logs
+*.log*
+*.db
+*.idea/
