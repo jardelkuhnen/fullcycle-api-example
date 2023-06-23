@@ -29,13 +29,11 @@ func (h *UserHandler) GetJWT(w http.ResponseWriter, r *http.Request) {
 	}
 	user, err := h.UserDB.FindByEmail(jwt.Email)
 	if err != nil {
-		w.Write([]byte("User not found"))
-		http.Error(w, err.Error(), http.StatusNotFound)
+		w.WriteHeader(http.StatusNotFound)
 		return
 	}
 	if !user.ValidatePassword(jwt.Password) {
-		w.Write([]byte("Invalid password"))
-		http.Error(w, err.Error(), http.StatusUnauthorized)
+		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
 	_, tokenString, _ := h.Jwt.Encode(map[string]interface{}{
